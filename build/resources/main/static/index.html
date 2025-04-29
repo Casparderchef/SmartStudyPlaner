@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mein Smart Calendar Frontend</title>
+  <!-- React und Babel per CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+  <!-- Hier wird unsere React-App reingeladen -->
+  <div id="root">Lade …</div>
+
+  <!-- Unser React‑Code in JSX, wird von Babel im Browser übersetzt -->
+  <script type="text/babel">
+    function App() {
+      const [msg, setMsg] = React.useState("Lade Nachricht vom Server …");
+
+      React.useEffect(() => {
+        // Wir holen die Antwort von http://localhost:8080/hello
+        fetch("/hello")
+          .then(res => res.text())
+          .then(text => setMsg(text))
+          .catch(() => setMsg("Fehler beim Laden"));
+      }, []);
+
+      return (
+        <div style={{ fontFamily: "Arial, sans-serif", margin: "2rem" }}>
+          <h1>Smart Calendar</h1>
+          <p>Server sagt: <strong>{msg}</strong></p>
+        </div>
+      );
+    }
+
+    // Rendern ins DIV mit der ID "root"
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
